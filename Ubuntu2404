@@ -1,0 +1,34 @@
+# Ubuntu 24.04 Dev Sandbox
+FROM ubuntu:24.04
+
+# Avoid timezone prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install OpenSSH and basic dev tools
+RUN apt-get update && apt-get install -y \
+    openssh-server \
+    sudo \
+    git \
+    curl \
+    vim \
+    bash-completion \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root developer user with passwordless sudo
+RUN useradd -ms /bin/bash developer && adduser developer sudo \
+    && echo "developer ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Setup SSH for key-based login
+RUN mkdir /home/developer/.ssh && chmod 700 /home/developer/.ssh && chown developer:developer /home/developer/.ssh
+RUN mkdir /var/run/sshd
+
+# Configure SSHD for key authentication only
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config \
+    && sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config \
+    && sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+
+# Expose SSH port
+EXPOSE 22
+
+# Start SSH server
+CMD ["/usr/sbin/sshd", "-D"]
