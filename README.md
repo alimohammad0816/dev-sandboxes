@@ -5,6 +5,8 @@
 
 ### Method 1
 #### 1 - Run
+##### **Warning**
+Using docker-compose, you will build all the containers in docker-compose file, if you want to build just one container use Method 2.
 ```bash
 docker compose up -d --build
 ```
