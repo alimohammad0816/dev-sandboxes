@@ -4,9 +4,11 @@
 ## Usage
 
 ### Method 1
+#### 1 - Run
 ```bash
 docker compose up -d --build
 ```
+#### 2 - Done
 
 ### Method 2
 #### 1 - Build Image
@@ -23,3 +25,4 @@ docker cp ~/.ssh/id_rsa.pub {{YOUR_SAND_BOX_NAME}}:/home/developer/.ssh/authoriz
 docker exec -it sandbox22 chown developer:developer /home/developer/.ssh/authorized_keys
 docker exec -it sandbox22 chmod 600 /home/developer/.ssh/authorized_keys
 ```
+#### 4 - Done
