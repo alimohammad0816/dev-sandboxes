@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  ubuntu22:
+    build:
+      context: ./Ubuntu2204
+    container_name: sandbox_ubuntu22
+    ports:
+      - "2222:22"
+    volumes:
+      - ~/.ssh/id_rsa.pub:/home/developer/.ssh/authorized_keys:ro
+    restart: unless-stopped
+
+  ubuntu24:
+    build:
+      context: ./Ubuntu2404
+    container_name: sandbox_ubuntu24
+    ports:
+      - "2224:22"
+    volumes:
+      - ~/.ssh/id_rsa.pub:/home/developer/.ssh/authorized_keys:ro
+    restart: unless-stopped
